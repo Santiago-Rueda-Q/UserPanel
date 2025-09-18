@@ -2,65 +2,412 @@
 
 /* ======================= COMPONENTS ======================= */
 @layer components {
-  .field { @apply relative w-full bg-white rounded-xl border border-red-400 transition-colors; }
+  /* Borde siempre visible; prioridad alta */
+  .field {
+    @apply relative w-full bg-white rounded-xl border border-gray-300 transition-colors;
+    border-width: 1px !important;
+    box-shadow: none !important;
+    overflow: hidden !important; /* Evita desbordes */
+  }
+  .field:hover { @apply border-[var(--p-primary-500)]; }
   .field:focus-within { @apply border-[var(--p-primary-600)] shadow-none; }
   .field--error { @apply border-red-600; }
   .field--neutral { @apply border-gray-300; }
 
-  .field-input { @apply w-full h-11 bg-transparent outline-none ring-0 shadow-none border-0 px-3 text-base text-black; }
+  .field-input { 
+    @apply w-full h-11 outline-none ring-0 shadow-none border-0 px-3 text-base text-black;
+    line-height: 2.75rem !important;
+  }
 
-  .field-icon-left { @apply absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none; }
+  .field-icon-left { 
+    @apply absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10;
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+  
+  /* Separación correcta para íconos */
   .with-left-icon .field-input,
   .with-left-icon .p-inputtext,
   .with-left-icon .p-select-label,
-  .with-left-icon .p-datepicker-input { @apply pl-10; }
+  .with-left-icon .p-datepicker-input { 
+    @apply pl-10; 
+    padding-left: 2.5rem !important; /* 40px - más separación del ícono */
+  }
+  .with-left-icon .p-dropdown .p-dropdown-label,
+  .with-left-icon .p-multiselect .p-multiselect-label,
+  .with-left-icon .p-cascadeselect .p-cascadeselect-label { 
+    padding-left: 2.5rem !important; /* 40px */
+  }
 
   .field-clear { @apply absolute right-10 top-1/2 -translate-y-1/2 z-10 text-gray-400 hover:text-gray-600; }
-
   .pv-panel-z { @apply z-[2000]; }
 
   .option-item { @apply flex items-center justify-between px-3 py-2 cursor-pointer; }
   .option-label { @apply truncate; }
   .option-check { @apply shrink-0 ml-3 text-[var(--p-primary-600)]; }
+
+  /* ===== ESTILOS PARA INPUT GROUP ===== */
+  .input-group-field {
+    @apply relative w-full bg-white rounded-xl border border-gray-300 transition-colors overflow-hidden;
+    border-width: 1px !important;
+    box-shadow: none !important;
+  }
+  
+  .input-group-field:hover { 
+    @apply border-[var(--p-primary-500)]; 
+  }
+  
+  .input-group-field:focus-within { 
+    @apply border-[var(--p-primary-600)];
+    box-shadow: 0 0 0 3px rgba(251, 44, 54, 0.1) !important;
+  }
+  
+  .input-group-field--error { 
+    @apply border-red-600; 
+  }
+
+  .input-group-addon {
+    @apply flex items-center justify-center bg-gray-50 text-gray-500 px-3 border-r border-gray-200;
+    height: 2.75rem !important;
+    min-width: 3rem;
+  }
 }
 
 /* =========================== BASE ========================= */
 @layer base {
-  .p-inputtext, .p-select, .p-multiselect, .p-cascadeselect, .p-datepicker { @apply bg-white border-0 rounded-xl; }
-  .p-inputtext, .p-select, .p-multiselect, .p-cascadeselect { @apply h-11; }
-  .p-datepicker input { @apply h-11; }
+  /* ---- 1) Inputs/Selects sin underline ni glow del tema ---- */
+  .p-inputtext,
+  .p-inputtext:enabled:hover,
+  .p-inputtext:enabled:focus,
+  .p-datepicker .p-inputtext,
+  .p-datepicker .p-inputtext:enabled:hover,
+  .p-datepicker .p-inputtext:enabled:focus {
+    background-color: #ffffff !important;
+    border: 0 !important;
+    border-bottom: 0 !important;      /* elimina línea inferior del tema */
+    outline: 0 !important;
+    box-shadow: none !important;
+    height: 2.75rem !important;       /* h-11 */
+    padding-left: 0.75rem !important; /* px-3 por defecto */
+    padding-right: 0.75rem !important;
+    line-height: 2.75rem !important;
+  }
 
-  .p-inputtext:focus, .p-select.p-focus, .p-multiselect.p-focus, .p-cascadeselect.p-focus, .p-datepicker input:focus {
-    outline: 0; box-shadow: none;
+  .p-dropdown,
+  .p-dropdown:not(.p-disabled):hover,
+  .p-dropdown.p-focus,
+  .p-multiselect,
+  .p-multiselect:not(.p-disabled):hover,
+  .p-multiselect.p-focus,
+  .p-cascadeselect,
+  .p-cascadeselect:not(.p-disabled):hover,
+  .p-cascadeselect.p-focus {
+    background-color: #ffffff !important;
+    border: 0 !important;
+    border-bottom: 0 !important;      /* mata underline */
+    outline: 0 !important;
+    box-shadow: none !important;
+    height: 2.75rem !important;       /* h-11 */
+  }
+
+  /* Alineación vertical */
+  .p-dropdown .p-dropdown-label,
+  .p-multiselect .p-multiselect-label,
+  .p-cascadeselect .p-cascadeselect-label {
+    height: 2.75rem !important;
+    line-height: 2.75rem !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  .p-dropdown .p-dropdown-trigger,
+  .p-multiselect .p-multiselect-trigger,
+  .p-cascadeselect .p-cascadeselect-trigger {
+    height: 2.75rem !important;
+    width: 3rem !important; /* Más ancho para dar espacio */
+    padding-right: 0.75rem !important; /* Separación del borde */
+  }
+
+  /* ---- 2) Overlays BLANCOS + BORDE ROJO FESC ---- */
+  .p-dropdown-panel,
+  .p-multiselect-panel,
+  .p-cascadeselect-panel,
+  .p-datepicker,
+  .p-datepicker-panel {
+    background-color: #ffffff !important;
+    border: 2px solid #FB2C36 !important; /* borde más grueso y visible */
+    border-radius: 0.75rem !important;   /* ~rounded-xl */
+    box-shadow: 0 10px 25px rgba(251, 44, 54, 0.15) !important; /* sombra roja suave */
+    backdrop-filter: none !important;
+    z-index: 2000 !important;
+  }
+  
+  .p-dropdown-panel .p-dropdown-items-wrapper,
+  .p-dropdown-panel .p-dropdown-items,
+  .p-multiselect-panel .p-multiselect-items {
+    background-color: #ffffff !important;
+  }
+  
+  .p-dropdown-item,
+  .p-multiselect-item,
+  .p-cascadeselect-item { 
+    background-color: #ffffff !important;
+    padding: 0.75rem 1rem !important; /* más espacio vertical */
+  }
+  
+  .p-dropdown-item:hover,
+  .p-multiselect-item:hover,
+  .p-cascadeselect-item:hover { 
+    background-color: #f9fafb !important;
+    color: #1f2937 !important;
+  }
+
+  .p-dropdown-item.p-dropdown-item-selected,
+  .p-multiselect-item.p-multiselect-item-selected {
+    background-color: #fef2f2 !important; /* fondo rojo muy suave para seleccionados */
+    color: #dc2626 !important;
+  }
+
+  /* ---- 3) Eliminar X de clear en selects ---- */
+  .p-dropdown .p-dropdown-clear-icon,
+  .p-multiselect .p-multiselect-clear-icon,
+  .p-cascadeselect .p-cascadeselect-clear-icon {
+    display: none !important; /* Oculta completamente las X */
+  }
+
+  /* ---- 4) Separación de íconos mejorada ---- */
+  .with-left-icon .p-inputtext {
+    padding-left: 2.5rem !important; /* 40px */
+  }
+
+  .with-left-icon .p-dropdown .p-dropdown-label,
+  .with-left-icon .p-multiselect .p-multiselect-label,
+  .with-left-icon .p-cascadeselect .p-cascadeselect-label {
+    padding-left: 2.5rem !important; /* 40px */
+  }
+
+  /* ---- 6) Estilos para InputGroup ---- */
+  .p-inputgroup {
+    border-radius: 0.75rem !important;
+    overflow: hidden !important;
+    border: 1px solid #d1d5db !important;
+    transition: border-color 0.2s ease !important;
+  }
+
+  .p-inputgroup:hover {
+    border-color: #E7000B !important;
+  }
+
+  .p-inputgroup:focus-within {
+    border-color: #FB2C36 !important;
+    box-shadow: 0 0 0 3px rgba(251, 44, 54, 0.1) !important;
+  }
+
+  .p-inputgroup .p-inputgroup-addon {
+    background-color: #f9fafb !important;
+    border: none !important;
+    border-right: 1px solid #e5e7eb !important;
+    padding: 0 1rem !important;
+    height: 2.75rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #6b7280 !important;
+  }
+
+  .p-inputgroup .p-inputtext,
+  .p-inputgroup .p-dropdown,
+  .p-inputgroup .p-cascadeselect,
+  .p-inputgroup .p-datepicker {
+    border: none !important;
+    border-radius: 0 !important;
+    height: 2.75rem !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* Específico para Calendar dentro de InputGroup */
+  .p-inputgroup .p-datepicker,
+  .p-inputgroup .p-datepicker:not(.p-disabled):hover,
+  .p-inputgroup .p-datepicker:not(.p-disabled).p-focus,
+  .p-inputgroup .p-datepicker .p-inputtext,
+  .p-inputgroup .p-datepicker .p-inputtext:enabled:hover,
+  .p-inputgroup .p-datepicker .p-inputtext:enabled:focus {
+    background-color: #ffffff !important;
+    border: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-top: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    height: 2.75rem !important;
+  }
+
+  .p-inputgroup .p-dropdown .p-dropdown-label,
+  .p-inputgroup .p-cascadeselect .p-cascadeselect-label {
+    height: 2.75rem !important;
+    line-height: 2.75rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .p-inputgroup .p-dropdown .p-dropdown-trigger,
+  .p-inputgroup .p-cascadeselect .p-cascadeselect-trigger {
+    height: 2.75rem !important;
+    width: 3rem !important;
+    padding-right: 0.75rem !important;
   }
   html, body, #app { height: 100%; background: #FFFFFF; color: #111827; }
 
-  :root{
-    --p-surface-ground: #FFFFFF;
-    --p-surface-0: #FFFFFF;
-    --p-surface-50: #FFFFFF;
+  :root {
+    --p-surface-ground: #FFFFFF; 
+    --p-surface-0: #FFFFFF; 
+    --p-surface-50: #FFFFFF; 
     --p-surface-100: #FFFFFF;
-
-    --p-primary-500: #E7000B; /* rojo FESC */
-    --p-primary-600: #FB2C36; /* rojo vivo en focus */
-    --p-content-color:#111827;
-
-    --wave-bottom-h: 72px;
+    --p-primary-500: #E7000B;  /* hover */
+    --p-primary-600: #FB2C36;  /* focus */
+    --p-content-color: #111827;
+    --wave-bottom-h: 72px; 
     --actionbar-h: 56px;
+    --p-focus-ring-color: rgba(251, 44, 54, .35);
   }
 }
 
-.wave-top, .wave-bottom { isolation:isolate; }
+.wave-top, .wave-bottom { isolation: isolate; }
 
 /* ========================= UTILITIES ====================== */
 @layer utilities {
-  .fesc-primary   { background-color:#E7000B; }
-  .fesc-primary-2 { background-color:#FB2C36; }
-  .fesc-soft      { background-color:#FFE2E2; }
-  .fesc-text      { color:#E7000B; }
-  .fesc-ring      { --tw-ring-color:#FB2C36; }
-  .shadow-fesc    { box-shadow:0 10px 24px rgba(231,0,11,.25); }
-  .shadow-fesc-2  { box-shadow:0 8px 18px rgba(251,44,54,.24); }
+  .fesc-primary { background-color: #E7000B; }
+  .fesc-primary-2 { background-color: #FB2C36; }
+  .fesc-soft { background-color: #FFE2E2; }
+  .fesc-text { color: #E7000B; }
+  .fesc-ring { --tw-ring-color: #FB2C36; }
+  .shadow-fesc { box-shadow: 0 10px 24px rgba(231,0,11,.25); }
+  .shadow-fesc-2 { box-shadow: 0 8px 18px rgba(251,44,54,.24); }
+  .pb-safe-footer { padding-bottom: calc(var(--wave-bottom-h)+var(--actionbar-h)+16px); }
+}
 
-  .pb-safe-footer { padding-bottom: calc(var(--wave-bottom-h) + var(--actionbar-h) + 16px); }
+/* ========================= OVERRIDES FINALES ========================= */
+.p-inputtext:hover,
+.p-inputtext:focus,
+.p-datepicker .p-inputtext:hover,
+.p-datepicker .p-inputtext:focus,
+.p-dropdown:not(.p-disabled):hover,
+.p-dropdown.p-focus,
+.p-multiselect:not(.p-disabled):hover,
+.p-multiselect.p-focus,
+.p-cascadeselect:not(.p-disabled):hover,
+.p-cascadeselect.p-focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  border-bottom: 0 !important;
+}
+
+.p-dropdown .p-dropdown-label:focus,
+.p-multiselect .p-multiselect-label:focus,
+.p-cascadeselect .p-cascadeselect-label:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Consistencia de altura/centrado */
+.p-inputtext,
+.p-dropdown,
+.p-multiselect,
+.p-cascadeselect { 
+  height: 2.75rem !important; 
+  width: 100% !important;
+  display: block !important;
+}
+
+.p-dropdown .p-dropdown-label,
+.p-multiselect .p-multiselect-label,
+.p-cascadeselect .p-cascadeselect-label { 
+  line-height: 2.75rem !important; 
+}
+
+.p-dropdown .p-dropdown-trigger,
+.p-multiselect .p-multiselect-trigger,
+.p-cascadeselect .p-cascadeselect-trigger { 
+  height: 2.75rem !important; 
+}
+
+/* ===== MEJORAS PARA FIELD WRAPPER ===== */
+.field { 
+  border: 1px solid #d1d5db !important; 
+  border-radius: .75rem !important;
+} 
+
+.field:hover { 
+  border-color: #E7000B !important; 
+}  
+
+.field:focus-within { 
+  border-color: #FB2C36 !important;
+  box-shadow: 0 0 0 3px rgba(251, 44, 54, 0.1) !important; /* ring suave */
+} 
+
+.field--error { 
+  border-color: #dc2626 !important; 
+}
+
+/* ===== FIX ESPECÍFICO PARA CALENDAR EN INPUTGROUP ===== */
+/* Eliminar todos los bordes del Calendar cuando está dentro de InputGroup */
+.p-inputgroup .p-datepicker,
+.p-inputgroup .p-datepicker:hover,
+.p-inputgroup .p-datepicker:focus,
+.p-inputgroup .p-datepicker:not(.p-disabled):hover,
+.p-inputgroup .p-datepicker:not(.p-disabled).p-focus {
+  border: none !important;
+  border-width: 0 !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Específico para el input interno del Calendar */
+.p-inputgroup .p-datepicker .p-inputtext,
+.p-inputgroup .p-datepicker .p-inputtext:hover,
+.p-inputgroup .p-datepicker .p-inputtext:focus,
+.p-inputgroup .p-datepicker .p-inputtext:enabled:hover,
+.p-inputgroup .p-datepicker .p-inputtext:enabled:focus {
+  border: none !important;
+  border-width: 0 !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Datepicker específico */
+.p-datepicker {
+  border: 2px solid #FB2C36 !important;
+}
+
+.p-datepicker .p-datepicker-header {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.p-datepicker .p-datepicker-calendar td > span:hover {
+  background-color: #fef2f2 !important;
+  color: #dc2626 !important;
+}
+
+.p-datepicker .p-datepicker-calendar td > span.p-datepicker-today {
+  background-color: #FB2C36 !important;
+  color: white !important;
+}
+
+/* Filtros en dropdowns */
+.p-dropdown-filter {
+  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  background-color: #ffffff !important;
+}
+
+.p-dropdown-filter .p-inputtext {
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
 }

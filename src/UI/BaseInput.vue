@@ -1,62 +1,74 @@
 <template>
-  <div class="w-full">
-    <label v-if="labelMode==='top'" :for="id" class="block text-sm font-medium text-gray-700 mb-1">
-      {{ label }}
-    </label>
-
-    <div
+  <div :class="['relative', error ? 'input-group-error' : '']">
+    <InputGroup 
+      v-if="icon"
       :class="[
-        'field',
-        icon && 'with-left-icon',
-        error && 'field--error',
-        neutral && 'field--neutral'
+        'input-group-field',
+        error ? 'input-group-field--error' : ''
       ]"
-      @click="focusInput"
     >
-      <i v-if="icon" :class="['field-icon-left', icon]"></i>
-
+      <InputGroupAddon class="input-group-addon">
+        <i class="pi" :class="icon"></i>
+      </InputGroupAddon>
+      
       <InputText
-        ref="inputRef"
         :id="id"
         v-model="inner"
-        v-keyfilter="keyfilter"
-        :invalid="!!error"
-        :autocomplete="autocomplete"
+        :placeholder="placeholder"
+        class="flex-1"
         :aria-invalid="!!error"
-        :aria-describedby="error ? id + '-error' : null"
-        class="field-input pr-10"
+        :autocomplete="autocomplete"
       />
-      <button
-        v-if="clearable && !!inner"
-        type="button"
-        class="field-clear"
-        @click.stop="inner = ''"
-        aria-label="Limpiar" title="Limpiar"
-      >
-        <i class="pi pi-times"></i>
-      </button>
+    </InputGroup>
+
+    <!-- Sin ícono - input simple -->
+    <div v-else :class="['field', error ? 'field--error' : 'field--neutral']">
+      <InputText
+        :id="id"
+        v-model="inner"
+        :placeholder="placeholder"
+        class="field-input p-inputtext w-full"
+        :aria-invalid="!!error"
+        :autocomplete="autocomplete"
+      />
     </div>
 
-    <p v-if="error" :id="id + '-error'" class="mt-1 text-xs text-red-600">{{ error }}</p>
+    <!-- Botón de limpiar -->
+    <button 
+      v-if="clearable && inner && inner.length > 0" 
+      type="button" 
+      class="absolute right-3 top-1/2 -translate-y-1/2 z-10 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
+      @click="clearInput" 
+      aria-label="Limpiar campo"
+    >
+      <i class="pi pi-times text-sm"></i>
+    </button>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { ref, watch } from 'vue'
 import InputText from 'primevue/inputtext'
+import InputGroup from 'primevue/inputgroup'
+import InputGroupAddon from 'primevue/inputgroupaddon'
 
 const props = defineProps({
-  modelValue:[String,Number],
-  id:String, label:String, error:String,
-  keyfilter:[String,RegExp,Object],
-  autocomplete:{ type:String, default:'off' },
-  labelMode:{ type:String, default:'top' },
-  icon:{ type:String, default:'' },
-  clearable:{ type:Boolean, default:true },
-  neutral:{ type:Boolean, default:false }
+  modelValue: [String, Number],
+  id: String,
+  placeholder: String,
+  icon: String,            
+  error: [String, Boolean],
+  clearable: { type: Boolean, default: true },
+  autocomplete: { type: String, default: 'off' }
 })
+
 const emit = defineEmits(['update:modelValue'])
-const inner = computed({ get:()=>props.modelValue, set:v=>emit('update:modelValue',v) })
-const inputRef = ref(null)
-function focusInput(){ inputRef.value?.$el?.querySelector('input')?.focus?.() }
+const inner = ref(props.modelValue ?? '')
+
+watch(() => props.modelValue, v => inner.value = v)
+watch(inner, v => emit('update:modelValue', v))
+
+function clearInput() {
+  inner.value = ''
+}
 </script>

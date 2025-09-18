@@ -1,130 +1,98 @@
 <template>
-  <div class="w-full">
-    <label v-if="labelMode==='top'" :for="id" class="block text-sm font-medium text-gray-700 mb-1">
-      {{ label }}
-    </label>
-
-    <div
+  <div :class="['relative', error ? 'input-group-error' : '']">
+    <InputGroup 
       :class="[
-        'field with-left-icon',
-        error && 'field--error',
-        neutral && 'field--neutral'
+        'input-group-field',
+        error ? 'input-group-field--error' : ''
       ]"
-      @click="openCalendar"
     >
-      <i class="field-icon-left pi pi-calendar"></i>
-
-      <button
-        v-if="clearable && !!inner"
-        type="button"
-        class="field-clear"
-        @click.stop="inner = null"
-        aria-label="Limpiar fecha" title="Limpiar"
-      >
-        <i class="pi pi-times"></i>
-      </button>
-
-      <DatePicker
-        ref="dpRef"
-        :id="id"
+      <InputGroupAddon class="input-group-addon">
+        <i class="pi pi-calendar"></i>
+      </InputGroupAddon>
+      
+      <Calendar
         v-model="inner"
+        :inputId="id"
         dateFormat="dd/mm/yy"
         :manualInput="true"
         :showIcon="false"
-        :showOnFocus="true"
-        :touchUI="false"
-        :invalid="!!error"
-        class="w-full"
+        class="flex-1"
         :pt="{
-          root:  'w-full bg-transparent',
-          input: { class: 'field-input pr-10' },
-          panel: { class: 'pv-panel-z bg-white border border-gray-200 rounded-lg shadow-sm p-2' }
+          root: { 
+            class: 'w-full h-11 rounded-none border-0',
+            style: 'border: none !important; box-shadow: none !important;'
+          },
+          pcInput: { 
+            class: 'w-full h-11 px-3 border-0 outline-none bg-transparent rounded-none',
+            style: 'border: none !important; box-shadow: none !important; outline: none !important;'
+          },
+          input: { 
+            class: 'w-full h-11 px-3 border-0 outline-none bg-transparent text-base rounded-none',
+            style: 'border: none !important; box-shadow: none !important; outline: none !important;'
+          },
+          panel: { 
+            class: 'bg-white border-2 border-[#FB2C36] rounded-xl shadow-lg z-[2000]'
+          },
+          header: { 
+            class: 'bg-white border-b border-gray-200 p-3 flex items-center justify-between'
+          },
+          title: { 
+            class: 'text-gray-900 font-medium'
+          },
+          table: { 
+            class: 'w-full'
+          },
+          tableHeaderCell: { 
+            class: 'p-2 text-center text-gray-600 text-sm font-medium'
+          },
+          day: { 
+            class: 'w-10 h-10 flex items-center justify-center text-sm cursor-pointer hover:bg-gray-50 rounded transition-colors'
+          },
+          dayLabel: { 
+            class: 'w-full h-full flex items-center justify-center'
+          },
+          otherMonthDay: { 
+            class: 'text-gray-400'
+          },
+          today: { 
+            class: 'bg-[#FB2C36] text-white rounded hover:bg-[#E7000B]'
+          }
         }"
       />
-    </div>
+    </InputGroup>
 
-    <p v-if="error" class="mt-1 text-xs text-red-600">{{ error }}</p>
+    <!-- Botón de limpiar personalizado para fechas -->
+    <button 
+      v-if="inner" 
+      type="button" 
+      class="absolute right-3 top-1/2 -translate-y-1/2 z-10 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
+      @click="clearDate" 
+      aria-label="Limpiar fecha"
+    >
+      <i class="pi pi-times text-sm"></i>
+    </button>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
-import DatePicker from 'primevue/datepicker'
+import { ref, watch } from 'vue'
+import Calendar from 'primevue/calendar'
+import InputGroup from 'primevue/inputgroup'
+import InputGroupAddon from 'primevue/inputgroupaddon'
 
 const props = defineProps({
-  modelValue:[String,Date], id:String, label:String, error:String,
-  labelMode:{ type:String, default:'top' },
-  clearable:{ type:Boolean, default:true },
-  neutral:{ type:Boolean, default:false }
+  modelValue: [Date, String, null],
+  id: String,
+  error: [String, Boolean]
 })
+
 const emit = defineEmits(['update:modelValue'])
-const inner = computed({ get:()=>props.modelValue, set:v=>emit('update:modelValue',v) })
+const inner = ref(props.modelValue ?? null)
 
-const dpRef = ref(null)
-function openCalendar(e){ if (!e.target.closest('.field-clear')) dpRef.value?.show?.() }
-</script>
-<template>
-  <div class="w-full">
-    <label v-if="labelMode==='top'" :for="id" class="block text-sm font-medium text-gray-700 mb-1">
-      {{ label }}
-    </label>
+watch(() => props.modelValue, v => inner.value = v)
+watch(inner, v => emit('update:modelValue', v))
 
-    <div
-      :class="[
-        'field with-left-icon',
-        error && 'field--error',
-        neutral && 'field--neutral'
-      ]"
-      @click="openCalendar"
-    >
-      <i class="field-icon-left pi pi-calendar"></i>
-
-      <button
-        v-if="clearable && !!inner"
-        type="button"
-        class="field-clear"
-        @click.stop="inner = null"
-        aria-label="Limpiar fecha" title="Limpiar"
-      >
-        <i class="pi pi-times"></i>
-      </button>
-
-      <DatePicker
-        ref="dpRef"
-        :id="id"
-        v-model="inner"
-        dateFormat="dd/mm/yy"
-        :manualInput="true"
-        :showIcon="false"
-        :showOnFocus="true"
-        :touchUI="false"
-        :invalid="!!error"
-        class="w-full"
-        :pt="{
-          root:  'w-full bg-transparent',
-          input: { class: 'field-input pr-10' },
-          panel: { class: 'pv-panel-z bg-white border border-gray-200 rounded-lg shadow-sm p-2' }
-        }"
-      />
-    </div>
-
-    <p v-if="error" class="mt-1 text-xs text-red-600">{{ error }}</p>
-  </div>
-</template>
-
-<script setup>
-import { computed, ref } from 'vue'
-import DatePicker from 'primevue/datepicker'
-
-const props = defineProps({
-  modelValue:[String,Date], id:String, label:String, error:String,
-  labelMode:{ type:String, default:'top' },
-  clearable:{ type:Boolean, default:true },
-  neutral:{ type:Boolean, default:false }
-})
-const emit = defineEmits(['update:modelValue'])
-const inner = computed({ get:()=>props.modelValue, set:v=>emit('update:modelValue',v) })
-
-const dpRef = ref(null)
-function openCalendar(e){ if (!e.target.closest('.field-clear')) dpRef.value?.show?.() }
+function clearDate() {
+  inner.value = null
+}
 </script>
