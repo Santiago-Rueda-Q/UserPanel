@@ -25,17 +25,18 @@
     height: 1rem !important;
   }
   
-  /* Separación correcta para íconos */
+  /* Separación correcta para íconos en INPUT TEXT */
   .with-left-icon .field-input,
-  .with-left-icon .p-inputtext,
-  .with-left-icon .p-select-label,
-  .with-left-icon .p-datepicker-input { 
-    @apply pl-10; 
+  .with-left-icon .p-inputtext { 
     padding-left: 2.5rem !important; /* 40px - más separación del ícono */
   }
-  .with-left-icon .p-dropdown .p-dropdown-label,
-  .with-left-icon .p-multiselect .p-multiselect-label,
-  .with-left-icon .p-cascadeselect .p-cascadeselect-label { 
+  
+  /* Separación correcta para íconos en SELECTS */
+  .with-left-icon .p-select-label,
+  .with-left-icon .p-dropdown-label,
+  .with-left-icon .p-multiselect-label,
+  .with-left-icon .p-cascadeselect-label,
+  .with-left-icon .p-datepicker-input { 
     padding-left: 2.5rem !important; /* 40px */
   }
 
@@ -110,27 +111,21 @@
     height: 2.75rem !important;       /* h-11 */
   }
 
-  /* Alineación vertical */
+  /* Alineación vertical y separación mejorada de triggers */
   .p-dropdown .p-dropdown-label,
   .p-multiselect .p-multiselect-label,
   .p-cascadeselect .p-cascadeselect-label {
     height: 2.75rem !important;
     line-height: 2.75rem !important;
     padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
+    padding-right: 2.5rem !important; /* Más espacio para la flecha */
   }
-  .p-dropdown .p-dropdown-trigger,
-  .p-multiselect .p-multiselect-trigger,
-  .p-cascadeselect .p-cascadeselect-trigger {
-    height: 2.75rem !important;
-    width: 3rem !important; /* Más ancho para dar espacio */
-    padding-right: 0.75rem !important; /* Separación del borde */
-  }
-
+  
   /* ---- 2) Overlays BLANCOS + BORDE ROJO FESC ---- */
   .p-dropdown-panel,
   .p-multiselect-panel,
   .p-cascadeselect-panel,
+  .p-select-overlay,
   .p-datepicker,
   .p-datepicker-panel {
     background-color: #ffffff !important;
@@ -143,28 +138,98 @@
   
   .p-dropdown-panel .p-dropdown-items-wrapper,
   .p-dropdown-panel .p-dropdown-items,
-  .p-multiselect-panel .p-multiselect-items {
+  .p-multiselect-panel .p-multiselect-items,
+  .p-select-list-container,
+  .p-select-list {
     background-color: #ffffff !important;
+    border-radius: 0.75rem !important;
   }
   
+  /* Estilos específicos para los items del select */
   .p-dropdown-item,
   .p-multiselect-item,
-  .p-cascadeselect-item { 
+  .p-cascadeselect-item,
+  .p-select-option { 
     background-color: #ffffff !important;
     padding: 0.75rem 1rem !important; /* más espacio vertical */
+    border-bottom: 1px solid #f1f5f9 !important; /* separador sutil entre items */
+    transition: all 0.2s ease !important;
+    margin: 0 !important;
   }
   
+  /* Eliminar el borde del último item */
+  .p-dropdown-item:last-child,
+  .p-multiselect-item:last-child,
+  .p-cascadeselect-item:last-child,
+  .p-select-option:last-child {
+    border-bottom: none !important;
+  }
+  
+  /* Hover states */
   .p-dropdown-item:hover,
   .p-multiselect-item:hover,
-  .p-cascadeselect-item:hover { 
-    background-color: #f9fafb !important;
+  .p-cascadeselect-item:hover,
+  .p-select-option:hover,
+  .p-select-option.p-focus { 
+    background-color: #fef2f2 !important; /* hover rojo muy suave */
     color: #1f2937 !important;
+    border-left: 3px solid #FB2C36 !important; /* indicador lateral en hover */
+    padding-left: 0.875rem !important; /* ajuste para compensar el borde */
   }
 
+  /* Items seleccionados */
   .p-dropdown-item.p-dropdown-item-selected,
-  .p-multiselect-item.p-multiselect-item-selected {
-    background-color: #fef2f2 !important; /* fondo rojo muy suave para seleccionados */
+  .p-multiselect-item.p-multiselect-item-selected,
+  .p-select-option[aria-selected="true"] {
+    background-color: #fee2e2 !important; /* fondo rojo suave para seleccionados */
     color: #dc2626 !important;
+    border-left: 3px solid #FB2C36 !important;
+    padding-left: 0.875rem !important;
+    font-weight: 500 !important;
+  }
+
+  /* Header del select con filtro - ALINEACIÓN MEJORADA */
+  .p-select-header {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+    padding: 0.75rem !important;
+  }
+
+  /* Input de filtro con ícono - ALINEACIÓN CORREGIDA */
+  .p-select-filter-container,
+  .p-dropdown-filter {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .p-select-filter,
+  .p-dropdown-filter .p-inputtext {
+    border: 1px solid #d1d5db !important;
+    border-radius: 0.5rem !important;
+    padding: 0.5rem 2.25rem 0.5rem 0.75rem !important; /* Espacio para el ícono a la derecha */
+    width: 100% !important;
+    font-size: 0.875rem !important;
+  }
+
+  .p-select-filter:focus,
+  .p-dropdown-filter .p-inputtext:focus {
+    border-color: #FB2C36 !important;
+    box-shadow: 0 0 0 2px rgba(251, 44, 54, 0.1) !important;
+    outline: none !important;
+  }
+
+  /* Ícono de búsqueda alineado correctamente */
+  .p-select-filter-icon,
+  .p-dropdown-filter-icon {
+    position: absolute !important;
+    right: 0.75rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #6b7280 !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
   }
 
   /* ---- 3) Eliminar X de clear en selects ---- */
@@ -174,15 +239,17 @@
     display: none !important; /* Oculta completamente las X */
   }
 
-  /* ---- 4) Separación de íconos mejorada ---- */
+  /* ---- 4) Separación de íconos mejorada para INPUT TEXT ---- */
   .with-left-icon .p-inputtext {
     padding-left: 2.5rem !important; /* 40px */
   }
 
+  /* ---- 5) Separación de íconos mejorada para SELECTS ---- */
   .with-left-icon .p-dropdown .p-dropdown-label,
   .with-left-icon .p-multiselect .p-multiselect-label,
   .with-left-icon .p-cascadeselect .p-cascadeselect-label {
     padding-left: 2.5rem !important; /* 40px */
+    padding-right: 2.5rem !important; /* Espacio para la flecha */
   }
 
   /* ---- 6) Estilos para InputGroup ---- */
@@ -248,15 +315,9 @@
     height: 2.75rem !important;
     line-height: 2.75rem !important;
     padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-right: 2.5rem !important; /* Espacio para flecha */
   }
 
-  .p-inputgroup .p-dropdown .p-dropdown-trigger,
-  .p-inputgroup .p-cascadeselect .p-cascadeselect-trigger {
-    height: 2.75rem !important;
-    width: 3rem !important;
-    padding-right: 0.75rem !important;
-  }
   html, body, #app { height: 100%; background: #FFFFFF; color: #111827; }
 
   :root {
@@ -327,12 +388,6 @@
   line-height: 2.75rem !important; 
 }
 
-.p-dropdown .p-dropdown-trigger,
-.p-multiselect .p-multiselect-trigger,
-.p-cascadeselect .p-cascadeselect-trigger { 
-  height: 2.75rem !important; 
-}
-
 /* ===== MEJORAS PARA FIELD WRAPPER ===== */
 .field { 
   border: 1px solid #d1d5db !important; 
@@ -400,14 +455,96 @@
   color: white !important;
 }
 
-/* Filtros en dropdowns */
-.p-dropdown-filter {
-  padding: 0.75rem 1rem !important;
-  border-bottom: 1px solid #f3f4f6 !important;
-  background-color: #ffffff !important;
+/* FORZAR OCULTACIÓN ABSOLUTA DE TRIGGERS */
+.p-dropdown .p-dropdown-trigger,
+.p-multiselect .p-multiselect-trigger,
+.p-cascadeselect .p-cascadeselect-trigger,
+.field .p-dropdown .p-dropdown-trigger,
+.field .p-multiselect .p-multiselect-trigger,
+.field .p-cascadeselect .p-cascadeselect-trigger,
+.input-group-field .p-dropdown .p-dropdown-trigger,
+.input-group-field .p-cascadeselect .p-cascadeselect-trigger,
+.p-inputgroup .p-dropdown .p-dropdown-trigger,
+.p-inputgroup .p-cascadeselect .p-cascadeselect-trigger,
+div[data-pc-section="trigger"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  z-index: -1 !important;
 }
 
-.p-dropdown-filter .p-inputtext {
-  border: 1px solid #d1d5db !important;
-  border-radius: 0.5rem !important;
+/* ELIMINAR ICONOS DE TRIGGER */
+.p-dropdown-trigger .p-icon,
+.p-multiselect-trigger .p-icon,
+.p-cascadeselect-trigger .p-icon,
+.p-dropdown-trigger i,
+.p-multiselect-trigger i,
+.p-cascadeselect-trigger i,
+[data-pc-section="trigger"] .p-icon,
+[data-pc-section="trigger"] i {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* LABELS SIN ESPACIO PARA TRIGGER */
+.p-dropdown .p-dropdown-label,
+.p-multiselect .p-multiselect-label,
+.p-cascadeselect .p-cascadeselect-label,
+.field .p-dropdown .p-dropdown-label,
+.field .p-multiselect .p-multiselect-label,
+.field .p-cascadeselect .p-cascadeselect-label {
+  padding-right: 2.5rem !important; /* Solo espacio para botón X */
+}
+
+/* LABELS CON ICONOS IZQUIERDOS */
+.with-left-icon .p-dropdown .p-dropdown-label,
+.with-left-icon .p-multiselect .p-multiselect-label,
+.with-left-icon .p-cascadeselect .p-cascadeselect-label,
+.input-group-field .p-dropdown .p-dropdown-label,
+.input-group-field .p-cascadeselect .p-cascadeselect-label {
+  padding-left: 2.5rem !important;
+  padding-right: 2.5rem !important; /* Solo espacio para botón X */
+}
+
+/* LABELS EN INPUT GROUP */
+.p-inputgroup .p-dropdown .p-dropdown-label,
+.p-inputgroup .p-cascadeselect .p-cascadeselect-label {
+  padding-left: 1rem !important;
+  padding-right: 2.5rem !important; /* Solo espacio para botón X */
+}
+
+/* SELECTS OCUPAN TODO EL ANCHO DISPONIBLE */
+.p-dropdown,
+.p-multiselect,
+.p-cascadeselect {
+  width: 100% !important;
+}
+
+/* CURSOR POINTER Y HOVER PARA INTERACTIVIDAD */
+.p-dropdown,
+.p-multiselect,
+.p-cascadeselect,
+.p-dropdown .p-dropdown-label,
+.p-multiselect .p-multiselect-label,
+.p-cascadeselect .p-cascadeselect-label {
+  cursor: pointer !important;
+}
+
+.field:hover .p-dropdown,
+.field:hover .p-multiselect,
+.field:hover .p-cascadeselect,
+.input-group-field:hover .p-dropdown,
+.input-group-field:hover .p-cascadeselect {
+  background-color: rgba(249, 250, 251, 0.8) !important;
+  transition: background-color 0.15s ease !important;
 }

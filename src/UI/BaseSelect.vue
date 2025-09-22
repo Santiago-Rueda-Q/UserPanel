@@ -28,10 +28,7 @@
             class: 'h-11 leading-[2.75rem] px-3 text-base'
           },
           label: { 
-            class: 'h-11 leading-[2.75rem] px-3 text-base text-gray-900'
-          },
-          trigger: { 
-            class: 'h-11 w-12 text-gray-400 hover:text-gray-600 pr-3'
+            class: 'h-11 leading-[2.75rem] px-3 text-base text-gray-900 cursor-pointer'
           },
           panel: { 
             class: 'bg-white border-2 border-[#FB2C36] rounded-xl shadow-lg z-[2000] mt-1' 
@@ -40,10 +37,22 @@
             class: 'bg-white rounded-xl overflow-hidden'
           },
           item: { 
-            class: 'bg-white hover:bg-gray-50 px-4 py-3 text-gray-900 cursor-pointer transition-colors duration-150'
+            class: 'bg-white hover:bg-red-50 px-4 py-3 text-gray-900 cursor-pointer transition-all duration-200 border-b border-gray-100 hover:border-l-4 hover:border-l-[#FB2C36] hover:pl-3'
+          },
+          itemGroup: { 
+            class: 'bg-gray-50 px-4 py-2 text-gray-700 font-medium text-sm border-b border-gray-200'
           },
           emptyMessage: { 
             class: 'bg-white px-4 py-3 text-gray-500 text-center'
+          },
+          header: { 
+            class: 'bg-white border-b border-gray-200 p-3'
+          },
+          filterInput: { 
+            class: 'w-full p-2 border border-gray-300 rounded-md text-sm focus:border-[#FB2C36] focus:ring-1 focus:ring-[#FB2C36]'
+          },
+          filterIcon: {
+            class: 'absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm'
           }
         }"
       />
@@ -68,10 +77,7 @@
             class: 'h-11 leading-[2.75rem] px-3 text-base'
           },
           label: { 
-            class: 'h-11 leading-[2.75rem] px-3 text-base text-gray-900'
-          },
-          trigger: { 
-            class: 'h-11 w-12 text-gray-400 hover:text-gray-600 pr-3'
+            class: 'h-11 leading-[2.75rem] px-3 text-base text-gray-900 cursor-pointer'
           },
           panel: { 
             class: 'bg-white border-2 border-[#FB2C36] rounded-xl shadow-lg z-[2000] mt-1' 
@@ -80,10 +86,22 @@
             class: 'bg-white rounded-xl overflow-hidden'
           },
           item: { 
-            class: 'bg-white hover:bg-gray-50 px-4 py-3 text-gray-900 cursor-pointer transition-colors duration-150'
+            class: 'bg-white hover:bg-red-50 px-4 py-3 text-gray-900 cursor-pointer transition-all duration-200 border-b border-gray-100 hover:border-l-4 hover:border-l-[#FB2C36] hover:pl-3'
+          },
+          itemGroup: { 
+            class: 'bg-gray-50 px-4 py-2 text-gray-700 font-medium text-sm border-b border-gray-200'
           },
           emptyMessage: { 
             class: 'bg-white px-4 py-3 text-gray-500 text-center'
+          },
+          header: { 
+            class: 'bg-white border-b border-gray-200 p-3'
+          },
+          filterInput: { 
+            class: 'w-full p-2 border border-gray-300 rounded-md text-sm focus:border-[#FB2C36] focus:ring-1 focus:ring-[#FB2C36] pl-8'
+          },
+          filterIcon: {
+            class: 'absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm'
           }
         }"
       />
@@ -93,7 +111,7 @@
     <button 
       v-if="clearable && inner !== null && inner !== ''" 
       type="button" 
-      class="absolute right-12 top-1/2 -translate-y-1/2 z-10 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
+      class="absolute right-3 top-1/2 -translate-y-1/2 z-10 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
       @click="clearValue"
       aria-label="Limpiar selección"
     >

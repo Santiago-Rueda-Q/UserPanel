@@ -1,9 +1,5 @@
 <template>
   <div class="rounded-2xl bg-white border border-gray-200 shadow-sm p-4">
-    <!-- Consejo fijo -->
-    <div class="rounded-xl bg-[#FFE2E2] text-gray-700 px-4 py-3 mb-4 border border-red-100">
-      <p class="text-sm">Consejo: se recomienda una foto cuadrada (1:1). Tamaño máx. {{ maxMB }} MB.</p>
-    </div>
 
     <!-- Preview -->
     <div
@@ -42,6 +38,12 @@
         @select="onFileSelect"
         :pt="{ root: { class: 'hidden' } }"
       />
+    </div>
+
+    <!-- Consejo fijo -->
+    <div class="rounded-xl bg-[#FFE2E2] text-gray-700 px-4 py-2 border border-red-100">
+
+      <p class="text-sm">Consejo: se recomienda una foto cuadrada (1:1). Tamaño máx. {{ maxMB }} MB.</p>
     </div>
 
     <!-- Mensaje de error debajo del recuadro -->

@@ -21,10 +21,17 @@
         </FormField>
     </div>
 
-    <!-- Tipo de documento (full) -->
-    <div class="col-span-12">
+    <!-- Tipo de documento (50%) -->
+    <div class="col-span-12 md:col-span-6">
         <FormField label="Tipo de documento" for-id="doc_type" :error="errors.doc_type">
         <BaseSelect id="doc_type" v-model="model.doc_type" :options="deps.docTypes" placeholder="Selecciona" icon="pi-id-card" :error="errors.doc_type" />
+        </FormField>
+    </div>
+
+    <!-- Fecha de nacimiento (50%) -->
+    <div class="col-span-12 md:col-span-6">
+        <FormField label="Fecha de nacimiento" for-id="birthdate" :error="errors.birthdate">
+        <BaseDate id="birthdate" v-model="model.birthdate" :error="errors.birthdate" />
         </FormField>
     </div>
 
@@ -42,32 +49,25 @@
         </FormField>
     </div>
 
-    <!-- Fecha de nacimiento (full) -->
-    <div class="col-span-12">
-        <FormField label="Fecha de nacimiento" for-id="birthdate" :error="errors.birthdate">
-        <BaseDate id="birthdate" v-model="model.birthdate" :error="errors.birthdate" />
+    <!-- País (50%) -->
+    <div class="col-span-12 md:col-span-6">
+        <FormField label="País" for-id="country" :error="errors.country">
+        <BaseSelect id="country" v-model="model.country"
+                    :options="deps.countries"
+                    placeholder="Selecciona país"
+                    icon="pi-globe"
+                    :error="errors.country" />
         </FormField>
     </div>
 
-    <!-- País / Ciudad -->
-    <div class="col-span-12">
-        <FormField label="País / Ciudad">
-        <div class="grid grid-cols-12 gap-4">
-            <div class="col-span-12 md:col-span-7">
-            <BaseSelect id="country" v-model="model.country"
-                        :options="deps.countries"
-                        placeholder="Country"
-                        icon="pi-globe"
-                        :error="errors.country" />
-            </div>
-            <div class="col-span-12 md:col-span-5">
-            <BaseSelect id="city" v-model="model.city"
-                        :options="citiesForCountry"
-                        placeholder="City"
-                        icon="pi-map-marker"
-                        :error="errors.city" />
-            </div>
-        </div>
+    <!-- Ciudad (50%) -->
+    <div class="col-span-12 md:col-span-6">
+        <FormField label="Ciudad" for-id="city" :error="errors.city">
+        <BaseSelect id="city" v-model="model.city"
+                    :options="citiesForCountry"
+                    placeholder="Selecciona ciudad"
+                    icon="pi-map-marker"
+                    :error="errors.city" />
         </FormField>
     </div>
 
