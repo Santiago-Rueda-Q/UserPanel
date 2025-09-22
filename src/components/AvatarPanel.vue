@@ -14,8 +14,8 @@
       <button
         type="button"
         class="absolute bottom-3 right-3 h-12 w-12 rounded-full grid place-items-center
-               bg-[#E7000B] hover:bg-[#FB2C36] text-white shadow-lg ring-4 ring-white
-               focus:outline-none focus:ring-2 focus:ring-red-500"
+              bg-[#E7000B] hover:bg-[#FB2C36] text-white shadow-lg ring-4 ring-white
+              focus:outline-none focus:ring-2 focus:ring-red-500"
         title="Cambiar foto"
         aria-label="Cambiar foto"
         @click="openPicker"
@@ -76,7 +76,6 @@ function resetChooser () {
 }
 
 async function openPicker () {
-  // limpiar antes de abrir para permitir re-seleccionar la misma imagen
   resetChooser()
   await nextTick()
   if (fu.value?.choose) fu.value.choose()
@@ -95,14 +94,14 @@ function onFileSelect (e) {
     return
   }
 
-  // Preview inmediato (llenando el recuadro)
+  // Preview
   if (lastURL) URL.revokeObjectURL(lastURL)
   lastURL = URL.createObjectURL(file)
   preview.value = lastURL
 
   emit('selected', file)
 
-  // Permitir actualización continua (misma/otra imagen)
+  // actualización 
   queueMicrotask(() => resetChooser())
 }
 

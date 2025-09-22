@@ -58,7 +58,7 @@
       />
     </InputGroup>
 
-    <!-- Sin ícono - select simple -->
+    <!-- Sin ícono -->
     <div v-else :class="['field', error ? 'field--error' : 'field--neutral']">
       <Dropdown
         v-model="inner"
@@ -107,7 +107,7 @@
       />
     </div>
 
-    <!-- Botón personalizado de limpiar -->
+    <!-- Botón -->
     <button 
       v-if="clearable && inner !== null && inner !== ''" 
       type="button" 

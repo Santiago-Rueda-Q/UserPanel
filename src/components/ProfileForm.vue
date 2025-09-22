@@ -90,18 +90,18 @@ import BaseDate   from '@/UI/BaseDate.vue'
 
 // Modelo del formulario
 const model = reactive({
-  first_name: '',
-  last_name: '',
-  email: '',
-  doc_type: null,
-  gender: null,
-  modality: null,
-  birthdate: null,
-  country: null,
-  city: null
+    first_name: '',
+    last_name: '',
+    email: '',
+    doc_type: null,
+    gender: null,
+    modality: null,
+    birthdate: null,
+    country: null,
+    city: null
 })
 
-// Dependencias (mock). Puede inyectarlas por props si ya las trae del backend.
+// Dependencias (mock)
 const deps = {
     docTypes: [
         { label: 'Cédula', value: 'CC' },
@@ -130,7 +130,7 @@ const deps = {
     }
 }
 
-// Errores de UI (integre su validación real vía Axios/422)
+// Errores de UI
 const errors = reactive({
     first_name: null, last_name: null, email: null, doc_type: null,
     gender: null, modality: null, birthdate: null, country: null, city: null

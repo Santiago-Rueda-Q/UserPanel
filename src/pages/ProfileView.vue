@@ -28,7 +28,6 @@
         <!-- DERECHA -->
         <section class="lg:col-span-8 flex">
           <div class="flex-1 rounded-2xl bg-white border border-gray-200 shadow-sm p-6">
-            <!-- El formulario ahora se autogestiona (estado/validación/botones). -->
             <ProfileForm />
           </div>
         </section>

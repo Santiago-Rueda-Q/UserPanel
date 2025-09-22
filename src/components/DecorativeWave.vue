@@ -24,10 +24,10 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-    position:  { type: String, default: 'top' },      // 'top' | 'bottom'
-    height:    { type: Number, default: 84 },         // px
-    absolute:  { type: Boolean, default: true },      // pos: absolute relativo al padre
-    fixed:     { type: Boolean, default: false },     // pos: fixed respecto al viewport
+    position:  { type: String, default: 'top' },      
+    height:    { type: Number, default: 84 },         
+    absolute:  { type: Boolean, default: true },     
+    fixed:     { type: Boolean, default: false },     
     primary:   { type: String, default: '#E7000B' },
     secondary: { type: String, default: '#FB2C36' }
 })

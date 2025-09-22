@@ -1,5 +1,5 @@
 <template>
-    <!-- Caso especial: país/ciudad (2 v-model distintos) -->
+    <!-- Paises-->
     <div v-if="item.component === 'CountryCitySelect'">
         <CountryCitySelect
         v-model:country="model.country"

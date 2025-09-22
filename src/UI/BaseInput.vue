@@ -1,6 +1,6 @@
 <template>
   <div :class="['relative', error ? 'input-group-error' : '']">
-    <!-- Con ícono - usando InputGroup -->
+    <!-- Con ícono -->
     <InputGroup 
       v-if="icon"
       :class="[
@@ -30,7 +30,7 @@
       />
     </InputGroup>
 
-    <!-- Sin ícono - input simple -->
+    <!-- Sin ícono -->
     <div v-else :class="['field', error ? 'field--error' : 'field--neutral']">
       <InputText
         v-model="inner"
@@ -50,7 +50,7 @@
       />
     </div>
 
-    <!-- Botón personalizado de limpiar -->
+    <!-- Botón -->
     <button 
       v-if="clearable && inner && inner.length > 0" 
       type="button" 
