@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onUnmounted, nextTick } from 'vue'
+import { ref, watch, computed, onUnmounted, nextTick, onMounted } from 'vue'
 import FileUpload from 'primevue/fileupload'
 
 const props = defineProps({
@@ -108,4 +108,5 @@ function onFileSelect (e) {
 onUnmounted(() => {
   if (lastURL) URL.revokeObjectURL(lastURL)
 })
+
 </script>

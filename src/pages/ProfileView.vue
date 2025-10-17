@@ -22,6 +22,14 @@
               @selected="file => tempPhotoFile = file"
               @uploaded="onPhotoUploaded"
             />
+
+            <!-- Botón QR -->
+            <ProfileQrButton
+              class="mt-4"
+              :fullName="`${user.first_name} ${user.last_name}`.trim()"
+              :documentNumber="user.document_number"
+              :email="user.email"
+            />
           </div>
         </aside>
 
@@ -64,6 +72,7 @@ import ProfileForm from '@/components/ProfileForm.vue'
 import SkeletonBlock from '@/UI/SkeletonBlock.vue'
 import DecorativeWave from '@/components/DecorativeWave.vue'
 import AvatarPanel from '@/components/AvatarPanel.vue'
+import ProfileQrButton from '@/components/ProfileQrButton.vue'
 
 const openPhoto = ref(false)
 const tempPhotoFile = ref(null)
@@ -73,6 +82,7 @@ const user = ref({
   first_name: '',
   last_name: '',
   email: '',
+  document_number: '',
   phone: '',
   photo_url: null
 })
